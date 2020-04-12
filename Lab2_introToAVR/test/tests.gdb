@@ -122,10 +122,10 @@ continue 2
 expectPORTC 0x01
 checkResult
 
-test "A: 0x0F => C: 0x00"
+test "A: 0x0F => C: 0x80"
 setPINA 0x0F
 continue 2
-expectPORTC 0x00
+expectPORTC 0x80
 checkResult
 
 # Report on how many tests passed/tests ran
