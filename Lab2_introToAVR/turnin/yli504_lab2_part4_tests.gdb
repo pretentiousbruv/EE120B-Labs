@@ -61,7 +61,7 @@ setPINA 0x4A
 setPINB 0x04
 setPINC 0x02
 continue 2
-expectPORTD 0x54
+expectPORTD 0x50
 checkResult
 
 # Report on how many tests passed/tests ran
