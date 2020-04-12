@@ -31,8 +31,7 @@ int main(void) {
 	else if((PINA == 0x07) || (PINA == 0x0B) || (PINA == 0x0D) || (PINA == 0x0E))
 		cntavail = (cntavail & 0xF0) | 0x01;
 	else if(PINA == 0x0F)
-		cntavail = 0x00;
-		/*cntavail = 0x80;*/
+		cntavail = 0x80;
 
 	PORTC = cntavail;
     }

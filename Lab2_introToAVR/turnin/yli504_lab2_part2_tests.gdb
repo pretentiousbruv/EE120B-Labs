@@ -44,23 +44,90 @@ continue 2
 expectPORTC 0x03
 checkResult
 
-test "A: 0x02 => C: 0x02"
+test "A: 0x02 => C: 0x03"
 setPINA 0x02
+continue 2
+expectPORTC 0x03
+checkResult
+
+test "A: 0x03 => C: 0x02"
+setPINA 0x04
 continue 2
 expectPORTC 0x02
 checkResult
 
-test "A: 0x03 => C: 0x01"
-setPINA 0x03
+test "A: 0x04 => C: 0x03"
+setPINA 0x004
+continue 2
+expectPORTC 0x03
+checkResult
+
+test "A: 0x05 => C: 0x02"
+setPINA 0x05
+continue 2
+expectPORTC 0x02
+checkResult
+
+test "A: 0x06 => C: 0x02"
+setPINA 0x06
+continue 2
+expectPORTC 0x02
+checkResult
+
+test "A: 0x07 => C: 0x01"
+setPINA 0x07
 continue 2
 expectPORTC 0x01
 checkResult
 
-test "A: 0x04 => C: 0x00"
-setPINA 0x04
+test "A: 0x08 => C: 0x03"
+setPINA 0x08
+continue 2
+expectPORTC 0x03
+checkResult
+
+test "A: 0x09 => C: 0x02"
+setPINA 0x09
+continue 2
+expectPORTC 0x02
+checkResult
+
+test "A: 0x0A => C: 0x02"
+setPINA 0x0A
+continue 2
+expectPORTC 0x02
+checkResult
+
+test "A: 0x0B => C: 0x01"
+setPINA 0x0B
+continue 2
+expectPORTC 0x01
+checkResult
+
+test "A: 0x0C => C: 0x02"
+setPINA 0x0C
+continue 2
+expectPORTC 0x02
+checkResult
+
+test "A: 0x0D => C: 0x01"
+setPINA 0x0D
+continue 2
+expectPORTC 0x01
+checkResult
+
+test "A: 0x0E => C: 0x01"
+setPINA 0x0E
+continue 2
+expectPORTC 0x01
+checkResult
+
+test "A: 0x0F => C: 0x00"
+setPINA 0x0F
 continue 2
 expectPORTC 0x00
 checkResult
+
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed
 eval "shell echo Passed %d/%d tests.\n",$passed,$tests
