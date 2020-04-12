@@ -15,25 +15,36 @@
 int main(void) {
     /* Insert DDR and PORT initializations */
 	DDRA = 0x00; PORTA = 0xFF; //input
-	DDRC = 0xFF; PORTC = 0x00; //output
+	DDRB = 0x00; PORTB = 0xFF;
+	DDRC = 0x00; PORTC = 0xFF;
+
+	DDRD = 0xFF; PORTD = 0x00; //output
 	
-	unsigned char cntavail = 0x00;
+	unsigned char tempA = 0x00;
+	unsigned char tempB = 0x00;
+	unsigned char tempC = 0x00;
+	unsigned char tempD = 0x00;
+	unsigned short weight = 0;
+	
     /* Insert your solution below */
     while (1) {
-	cntavail = 0x00;
+	tempA = PINA;
+	tempB = PINB;
+	tempC = PINC;
+	tempD = 0x00;
+	weight = 0;
 
-	if(PINA == 0x00)
-		cntavail = (cntavail & 0xF0) | 0x04;
-	else if((PINA == 0x01) || (PINA == 0x02) || (PINA == 0x04) || (PINA == 0x08))
-		cntavail = (cntavail & 0xF0) | 0x03;
-	else if((PINA == 0x03) || (PINA == 0x05) || (PINA == 0x06) || (PINA == 0x09) || (PINA == 0x0A) || (PINA == 0x0C))
-		cntavail = (cntavail & 0xF0) | 0x02;
-	else if((PINA == 0x07) || (PINA == 0x0B) || (PINA == 0x0D) || (PINA == 0x0E))
-		cntavail = (cntavail & 0xF0) | 0x01;
-	else if(PINA == 0x0F)
-		cntavail = 0x80;
-
-	PORTC = cntavail;
+	weight = tempA + tempB + tempC;
+	tempD = weight & 0xFC;
+	
+	if(weight > 140){
+		tempD = tempD | 0x01;
+	}
+	
+	if((tempA - tempC) > 80 || (tempC - tempA)){
+		tempD = tempD | 0x02;
+	}
+	PORTD = tempD
     }
     return 1;
 }

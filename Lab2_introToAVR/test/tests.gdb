@@ -27,105 +27,41 @@ echo ======================================================\n
 echo Running all tests..."\n\n
 
 # Example test:
-test "PINA: 0x00 => PORTC: 0x04"
+test "weight > 140 and A - C > 80"
 # Set inputs
-setPINA 0x00
+setPINA 0x55
+setPINB 0x46
+setPINC 0x02
 # Continue for several ticks
 continue 2
 # Set expect values
-expectPORTC 0x04 
+expectPORTD 0x9F 
 # Check pass/fail
 checkResult
 
 # Add tests below
-test "PINA: 0x01 => PORTC: 0x03"
-setPINA 0x01
+test "weight > 140 and A - C < 80"
+setPINA 0x4A
+setPINB	0x46
+setPINC 0x02
 continue 2
-expectPORTC 0x03
+expectPORTD 0x91
 checkResult
 
-test "A: 0x02 => C: 0x03"
-setPINA 0x02
+test "weight < 140 and A - C > 80"
+setPINA 0x55
+setPINB 0x04
+setPINC 0x02
 continue 2
-expectPORTC 0x03
+expectPORTD 0x5A
 checkResult
 
-test "A: 0x03 => C: 0x02"
-setPINA 0x04
+test "weight < 140 and A - C < 80"
+setPINA 0x4A
+setPINB 0x04
+setPINC 0x02
 continue 2
-expectPORTC 0x02
-checkResult
-
-test "A: 0x04 => C: 0x03"
-setPINA 0x004
-continue 2
-expectPORTC 0x03
-checkResult
-
-test "A: 0x05 => C: 0x02"
-setPINA 0x05
-continue 2
-expectPORTC 0x02
-checkResult
-
-test "A: 0x06 => C: 0x02"
-setPINA 0x06
-continue 2
-expectPORTC 0x02
-checkResult
-
-test "A: 0x07 => C: 0x01"
-setPINA 0x07
-continue 2
-expectPORTC 0x01
-checkResult
-
-test "A: 0x08 => C: 0x03"
-setPINA 0x08
-continue 2
-expectPORTC 0x03
-checkResult
-
-test "A: 0x09 => C: 0x02"
-setPINA 0x09
-continue 2
-expectPORTC 0x02
-checkResult
-
-test "A: 0x0A => C: 0x02"
-setPINA 0x0A
-continue 2
-expectPORTC 0x02
-checkResult
-
-test "A: 0x0B => C: 0x01"
-setPINA 0x0B
-continue 2
-expectPORTC 0x01
-checkResult
-
-test "A: 0x0C => C: 0x02"
-setPINA 0x0C
-continue 2
-expectPORTC 0x02
-checkResult
-
-test "A: 0x0D => C: 0x01"
-setPINA 0x0D
-continue 2
-expectPORTC 0x01
-checkResult
-
-test "A: 0x0E => C: 0x01"
-setPINA 0x0E
-continue 2
-expectPORTC 0x01
-checkResult
-
-test "A: 0x0F => C: 0x80"
-setPINA 0x0F
-continue 2
-expectPORTC 0x80
+expectPORTD 0x50
 checkResult
 
 # Report on how many tests passed/tests ran
