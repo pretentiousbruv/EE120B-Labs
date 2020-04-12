@@ -15,16 +15,25 @@
 int main(void) {
     /* Insert DDR and PORT initializations */
 	DDRA = 0x00; PORTA = 0xFF; //input
-	DDRB = 0xFF; PORTB = 0x00; //output
+	DDRC = 0xFF; PORTC = 0x00; //output
 
-	unsigned char tempB = 0x00;
+	unsigned char cntavail = 0x00;
     /* Insert your solution below */
     while (1) {
-	if(PINA == 0x01)
-		tempB = (tempB & 0xFC) | 0x01;
+	cntavail = 0;
+
+	if(PINA == 0x00)
+		cntavail = (cntavail & 0xF8) | 0x04;
+	else if(PINA == 0x01)
+		cntavail = (cntavail & 0xF8) | 0x03;
+	else if(PINA == 0x02)
+		cntavail = (cntavail & 0xF8) | 0x02;
+	else if(PINA == 0x03)
+		cntavail = (cntavail & 0xF8) | 0x01;
 	else
-		tempB = (tempB & 0xFC) | 0x00;
-	PORTB = tempB;
+		cntavail = (cntavail & 0xF8) | 0x00;
+
+	PORTC = cntavail;
     }
     return 1;
 }
