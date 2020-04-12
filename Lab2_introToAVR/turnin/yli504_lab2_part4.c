@@ -44,7 +44,7 @@ int main(void) {
 	if((tempA - tempC) > 80 || (tempC - tempA)){
 		tempD = tempD | 0x02;
 	}
-	PORTD = tempD
+	PORTD = tempD;
     }
     return 1;
 }
