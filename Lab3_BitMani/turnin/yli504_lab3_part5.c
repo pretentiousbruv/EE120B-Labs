@@ -38,6 +38,9 @@ int main(void) {
 	else if((weight > 5) && (weight < 70)){
 		tempBo = tempBo | 0x04;
 	}
+	else{
+		tempBo = o;
+	}
 	weight = tempC;
 	tempC = tempC & 0x01;
 	tempA  = weight >> 1;
