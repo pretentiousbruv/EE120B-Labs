@@ -26,20 +26,23 @@ int main(void) {
 	if((tempA < 16) && (tempA > 12)){
 		tempC = 0x3F;
 	}
-	if((tempA < 13) && (tempA > 9)){
+	else if((tempA < 13) && (tempA > 9)){
 		tempC = 0x3E;
 	}
-	if((tempA < 10) && (tempA > 6)){
+	else if((tempA < 10) && (tempA > 6)){
 		tempC = 0x3C;
 	}
-	if((tempA < 7) && (tempA > 4)){
+	else if((tempA < 7) && (tempA > 4)){
 		tempC = 0x38;
 	}
-	if((tempA < 5) && (tempA > 2)){
+	else if((tempA < 5) && (tempA > 2)){
 		tempC = 0x70;
 	}
-	if((tempA < 3) && (tempA > 0)){
+	else if((tempA < 3) && (tempA > 0)){
 		tempC = 0x60;
+	}
+	else{
+		tempC = 0x40;
 	}
 	PORTC = tempC;
     }
