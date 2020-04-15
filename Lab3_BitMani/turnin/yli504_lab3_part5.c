@@ -30,12 +30,14 @@ int main(void) {
 	tempBo = 0x00;
 	tempBi = PINB;
 	tempD = PIND;
-	weight = tempBi + tempD;
+	weight = tempD;
+	weight = weight << 1;
+	weight = weight | tempBi;
 	
-	if(weight > 69){
+	if(weight >= 70){
 		tempBo = tempBo | 0x02;
 	}
-	else if((weight > 5) && (weight < 69)){
+	else if((weight > 5) && (weight <= 69)){
 		tempBo = tempBo | 0x04;
 	}
 	else{
