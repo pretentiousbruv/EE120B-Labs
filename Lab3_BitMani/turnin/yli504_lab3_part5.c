@@ -35,7 +35,7 @@ int main(void) {
 	if(weight >= 70){
 		tempBo = tempBo | 0x02;
 	}
-	else if((weight > 5) && (weight < 7)){
+	else if((weight > 5) && (weight < 70)){
 		tempBo = tempBo | 0x04;
 	}
 	weight = tempC;
