@@ -3,8 +3,5 @@ Note: automatically using hardware breakpoints for read-only addresses.
 ======================================================
 Running all tests..."
 
-"A = 0x0F C => 0x3F"..."A 0x06 C => 0x38"..."A 0x7F C => 0x3F"...
-	Expected 0x3F 
-	PORTC '0x800028:	0xbf
-"A 0x3F C => 0xBF"...======================================================
+"A = 0x0F C => 0xF0"..."A 0x06 C => 0x60"...======================================================
 Quitting: Remote doesn't know how to detach
