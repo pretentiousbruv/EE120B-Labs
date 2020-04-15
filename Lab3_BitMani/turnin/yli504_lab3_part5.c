@@ -39,8 +39,9 @@ int main(void) {
 		tempBo = tempBo | 0x04;
 	}
 	else{
-		tempBo = o;
+		tempBo = 0;
 	}
+	    
 	weight = tempC;
 	tempC = tempC & 0x01;
 	tempA  = weight >> 1;
