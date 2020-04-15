@@ -27,7 +27,7 @@ int main(void) {
 	
 	tempA2 = tempA2 >> 4;
 	tempA = tempA & 0x0F;
-	if((tempA2 == 0) || (tempA2 == 1) || (tempA2 == 2) || (tempA2 == 4) || (tempA2 == 5) || (tempA2 == 6) || (tempA == 7)){
+	if((tempA2 == 0) || (tempA2 == 1) || (tempA2 == 2) || (tempA2 == 4) || (tempA2 == 5) || (tempA2 == 6) || (tempA2 == 7)){
 		if((tempA < 16) && (tempA > 12)){
 			tempC = 0x3F;
 		}
