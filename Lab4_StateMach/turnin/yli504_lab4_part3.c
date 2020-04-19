@@ -12,144 +12,252 @@
 #include "simAVRHeader.h"
 #endif
 
-enum states{Start, locked, A0press, A0wait, A0release, A1press, A1wait, A1release, A0A1press, A0A1wait, A0A1release} state;
+enum states{Start, lock, a3lock, unlockpress, unlockwait, unlockrelease, xpress, xwait, xrelease, ypress, ywait, yrelease, a3press, a3wait, a3release, inpress, inwait, inrelease} state;
 
-void status(){
+void lockstatus(){
 	switch(state){ //transitions
 		case Start:
-			state = init;
+			state = lock;
 			break;
-		case init:
+
+		case lock:
 			if(PINA == 0x00){
-				state = init;
+				state = lock;
 			}
 			if(PINA == 0x01){
-				state = A0press;
+				state = xpress;
 			}
 			if(PINA == 0x02){
-				state = A1press;
+				state = ypress;
 			}
-			if(PINA == 0x03){
-				state = A0A1press;
+			if(PINA == 0x04){
+				state = a3press;
 			}
 			break;
-		case A0press:
+			if(PINA == 0x80){
+				state = inpress;
+			}
+			break;
+
+		case a3lock:
+			if(PINA == 0x00){
+				state = a3lock;
+			}
+			if(PINA == 0x02){
+				state = unlockpress;
+			}
+			else{
+				state = lock;
+			}
+			break;
+		
+		case unlockpress:
+			if(PINA == 0x02){
+				state = unlockwait;
+			}
+			if(PINA == 0x00){
+				state = unlockpress;
+			}
+			else{
+				state = lock;
+			}
+		case unlockwait:
+			if(PINA == 0x02){
+				state = unlockwait;
+				break;
+			}
+			if(PINA == 0x00){
+				state = unlockrelease;
+			}
+		case unlockrelease:
+			if(PINA == 0x02){
+				state = unlockrelease;
+			}
+			if(PINA == 0x00){
+				state = unlockpress;
+			}
+			break;
+
+		case xpress:
 			if(PINA == 0x01){
-				state = A0wait;
+				state = xwait;
 			}
 			if(PINA == 0x00){
-				state = A0press;
+				state = xpress;
 			}
-			if(PINA == 0x03){
-				state = A0A1press;
+			if(PINA == 0x02){
+				state = ypress;
+			}
+			if(PINA == 0x04){
+				state = a3press;
+			}
+			if(PINA == 0x80){
+				state = inpress;
 			}
 			break;
-		case A0wait:
+		case xwait:
 			if(PINA == 0x01){
-				state = A0wait;
+				state = xwait;
 			}
 			if(PINA == 0x00){
-				state = A0release;
-			}
+				state = xrelease;
 			break;
-		case A0release:
+		case xrelease:
 			if(PINA == 0x01){
-				state = A0release;
+				state = xrelease;
 			}
 			if(PINA == 0x00){
-				state = init;
-			}
+				state = lock;
 			break;
-		case A1press:
+		
+		case ypress:
 			if(PINA == 0x02){
-				state = A1wait;
+				state = ywait;
 			}
 			if(PINA == 0x00){
-				state = A1press;
+				state = ypress;
 			}
-			if(PINA == 0x03){
-				state = A0A1press;
+			if(PINA == 0x01){
+				state = xpress;
+			}
+			if(PINA == 0x04){
+				state = a3press;
+			}
+			if(PINA == 0x80){
+				state = inpress;
 			}
 			break;
-		case A1wait:
+		case ywait:
 			if(PINA == 0x02){
-				state = A1wait;
+				state = ywait;
 			}
 			if(PINA == 0x00){
-				state = A1release;
-			}
+				state = yrelease;
 			break;
-		case A1release:
+		case yrelease:
 			if(PINA == 0x02){
-				state = A1release;
+				state = yrelease;
 			}
 			if(PINA == 0x00){
-				state = init;
-			}
+				state = lock;
 			break;
-		case A0A1press:
-			if(PINA == 0x00){
-				state = A0A1wait;
-			}
-			if(PINA == 0x03){
-				state = A0A1press;
-			}
-			break;
-		case A0A1wait:
-			if(PINA == 0x03){
-				state = A0A1wait;
+
+		case a3press:
+			if(PINA == 0x04){
+				state = a3wait;
 			}
 			if(PINA == 0x00){
-				state = A0A1release;
+				state = a3press;
+			}
+			if(PINA == 0x02){
+				state = ypress;
+			}
+			if(PINA == 0x01){
+				state = xpress;
+			}
+			if(PINA == 0x80){
+				state = inpress;
 			}
 			break;
-		case A0A1release:
-			if(PINA == 0x03){
-				state = A0A1release;
+		case a3wait:
+			if(PINA == 0x04){
+				state = a3wait;
 			}
 			if(PINA == 0x00){
-				state = init;
+				state = a3release;
+			break;
+		case a3release:
+			if(PINA == 0x04){
+				state = a3release;
+			}
+			if(PINA == 0x00){
+				state = a3lock;
+			break;
+
+		case inpress:
+			if(PINA == 0x08){
+				state = inwait;
+			}
+			if(PINA == 0x00){
+				state = inpress;
+			}
+			if(PINA == 0x02){
+				state = ypress;
+			}
+			if(PINA == 0x04){
+				state = a3press;
+			}
+			if(PINA == 0x01){
+				state = inpress;
 			}
 			break;
+		case inwait:
+			if(PINA == 0x80){
+				state = inwait;
+			}
+			if(PINA == 0x00){
+				state = inrelease;
+			break;
+		case inrelease:
+			if(PINA == 0x80){
+				state = inrelease;
+			}
+			if(PINA == 0x00){
+				state = lock;
+			break;
+
 		default:
 			state = Start;
 			break;
 	}
 	switch(state){ //state actions
-		case init:
-			PORTC;
-			break;	
-		case A0press:
-			if(PORTC < 9){
-				PORTC = PORTC + 1;
-			}
+		case lock:
+			PORTB = 0x00;
+		case a3lock:
+			PORTB = 0x00;
+		case unlockpress:
+			PORTB = 0x01;
 			break;
-		case A0wait:
-			PORTC;
+		case unlockwait:
+			PORTB = 0x01;
 			break;
-		case A0release:
-			PORTC;
+		case unlockrelease:
+			PORTB = 0x01;
 			break;
-		case A1press:
-			if(PORTC > 0){
-				PORTC = PORTC - 1;
-			}
+		case xpress:
+			PORTB = 0x00;
 			break;
-		case A1wait:
-			PORTC;
+		case xwait:
+			PORTB = 0x00;
 			break;
-		case A1release:
-			PORTC;
+		case xrelease:
+			PORTB = 0x00;
 			break;
-		case A0A1press:
-			PORTC = 0;
+		case ypress:
+			PORTB = 0x00;
 			break;
-		case A0A1wait:
-			PORTC;
+		case ywait:
+			PORTB = 0x00;
 			break;
-		case A0A1release:
-			PORTC;
+		case yrelease:
+			PORTB = 0x00;
 			break;
+		case a3press:
+			PORTB = 0x00;
+			break;
+		case a3wait:
+			PORTB = 0x00;
+			break;
+		case a3release:
+			PORTB = 0x00;
+			break;
+		case inpress:
+			PORTB = 0x00;
+			break;
+		case inwait:
+			PORTB = 0x00;
+		case inrelease:
+			PORTB = 0x00;
 		default:
 			PORTB = 0x00;
 			break;
@@ -164,7 +272,7 @@ int main(void) {
 	PORTB = 0x00;
 	state = Start;
     while (1) {
-	status();
+	lockstatus();
     }
     return 1;
 }
