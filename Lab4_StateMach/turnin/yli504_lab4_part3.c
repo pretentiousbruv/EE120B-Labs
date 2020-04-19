@@ -101,6 +101,7 @@ void lockstatus(){
 			}
 			if(PINA == 0x00){
 				state = xrelease;
+			}
 			break;
 		case xrelease:
 			if(PINA == 0x01){
@@ -108,6 +109,7 @@ void lockstatus(){
 			}
 			if(PINA == 0x00){
 				state = lock;
+			}
 			break;
 		
 		case ypress:
@@ -133,6 +135,7 @@ void lockstatus(){
 			}
 			if(PINA == 0x00){
 				state = yrelease;
+			}
 			break;
 		case yrelease:
 			if(PINA == 0x02){
@@ -140,6 +143,7 @@ void lockstatus(){
 			}
 			if(PINA == 0x00){
 				state = lock;
+			}
 			break;
 
 		case a3press:
@@ -165,6 +169,7 @@ void lockstatus(){
 			}
 			if(PINA == 0x00){
 				state = a3release;
+			}
 			break;
 		case a3release:
 			if(PINA == 0x04){
@@ -172,6 +177,7 @@ void lockstatus(){
 			}
 			if(PINA == 0x00){
 				state = a3lock;
+			}
 			break;
 
 		case inpress:
@@ -197,6 +203,7 @@ void lockstatus(){
 			}
 			if(PINA == 0x00){
 				state = inrelease;
+			}
 			break;
 		case inrelease:
 			if(PINA == 0x80){
@@ -204,6 +211,7 @@ void lockstatus(){
 			}
 			if(PINA == 0x00){
 				state = lock;
+			}
 			break;
 
 		default:
