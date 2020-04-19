@@ -25,10 +25,11 @@
 
 echo ======================================================\n
 echo Running all tests..."\n\n
-test "A: 0x01, PORTC => 0x08"
+test "A: 0x01, PORTB => 0x00"
 setPINA 0x01
 continue 2
-expectPORTC 0x08
+expectPORTB 0x00
+expect state lock
 checkResult
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed
