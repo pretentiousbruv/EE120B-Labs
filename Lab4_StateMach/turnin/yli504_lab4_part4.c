@@ -1,327 +1,44 @@
-/*	Author: yli504
- *  Partner(s) Name: 
- *	Lab Section:
- *	Assignment: Lab #  Exercise #
- *	Exercise Description: [optional - include for your own benefit]
- *
- *	I acknowledge all content contained herein, excluding template or example
- *	code, is my own original work.
- */
-#include <avr/io.h>
-#ifdef _SIMULATE_
-#include "simAVRHeader.h"
-#endif
+# Test file for "Lab4_StateMach"
 
-enum states{Start, lock, a3lock, unlockpress, unlockwait, unlockrelease, relockpress, relockwait, relockrelease, xpress, xwait, xrelease, ypress, ywait, yrelease, a3press, a3wait, a3release, inpress, inwait, inrelease} state;
 
-void lockstatus(){
-	switch(state){ //transitions
-		case Start:
-			state = lock;
-			break;
+# commands.gdb provides the following functions for ease:
+#   test "<message>"
+#       Where <message> is the message to print. Must call this at the beginning of every test
+#       Example: test "PINA: 0x00 => expect PORTC: 0x01"
+#   checkResult
+#       Verify if the test passed or failed. Prints "passed." or "failed." accordingly, 
+#       Must call this at the end of every test.
+#   expectPORTx <val>
+#       With x as the port (A,B,C,D)
+#       The value the port is epected to have. If not it will print the erroneous actual value
+#   setPINx <val>
+#       With x as the port or pin (A,B,C,D)
+#       The value to set the pin to (can be decimal or hexidecimal
+#       Example: setPINA 0x01
+#   printPORTx f OR printPINx f 
+#       With x as the port or pin (A,B,C,D)
+#       With f as a format option which can be: [d] decimal, [x] hexadecmial (default), [t] binary 
+#       Example: printPORTC d
+#   printDDRx
+#       With x as the DDR (A,B,C,D)
+#       Example: printDDRB
 
-		case lock:
-			if(PINA == 0x00){
-				state = lock;
-			}
-			if(PINA == 0x01){
-				state = xpress;
-			}
-			if(PINA == 0x02){
-				state = ypress;
-			}
-			if(PINA == 0x04){
-				state = a3press;
-			}
-			break;
-			if(PINA == 0x80){
-				state = inpress;
-			}
-			break;
+echo ======================================================\n
+echo Running all tests..."\n\n
+test "A: 0x01, PORTB => 0x00"
+setPINA 0x01
+continue 2
+expectPORTB 0x00
+expect state lock
+checkResult
 
-		case a3lock:
-			if(PINA == 0x00){
-				state = a3lock;
-			}
-			if(PINA == 0x02){
-				state = unlockpress;
-			}
-			else{
-				state = lock;
-			}
-			break;
-		
-		case unlockpress:
-			if(PINA == 0x00){
-				state = unlockwait;
-			}
-			if(PINA == 0x02){
-				state = unlockpress;
-			}
-			else{
-				state = lock;
-			}
-			break;
-		case unlockwait:
-			if(PINA == 0x00){
-				state = unlockwait;
-			}
-			if(PINA == 0x02){
-				state = unlockrelease;
-			}
-			break;
-		case unlockrelease:
-			if(PINA == 0x00){
-				state = unlockrelease;
-			}
-			if(PINA == 0x02){
-				state = unlockpress;
-			}
-			break;
-
-		case relockpress:
-			if(PINA == 0x00){
-				state = relockpress;
-			}
-			if(PINA == 0x04){
-				state = relockwait;
-			}
-			else{
-				state = unlockpress;
-			}
-			break;
-		case relockwait:
-			if(PINA == 0x00){
-				state = relockwait;
-			}
-			if(PINA == 0x02){
-				state = relockrelease;
-			}
-			break;
-		case relockrelease:
-			if(PINA == 0x00){
-				state = relockrelease;
-			}
-			if(PINA == 0x02){
-				state = lock;
-			}
-			break;
-		case xpress:
-			if(PINA == 0x01){
-				state = xwait;
-			}
-			if(PINA == 0x00){
-				state = xpress;
-			}
-			if(PINA == 0x02){
-				state = ypress;
-			}
-			if(PINA == 0x04){
-				state = a3press;
-			}
-			if(PINA == 0x80){
-				state = inpress;
-			}
-			break;
-		case xwait:
-			if(PINA == 0x01){
-				state = xwait;
-			}
-			if(PINA == 0x00){
-				state = xrelease;
-			}
-			break;
-		case xrelease:
-			if(PINA == 0x01){
-				state = xrelease;
-			}
-			if(PINA == 0x00){
-				state = lock;
-			}
-			break;
-		
-		case ypress:
-			if(PINA == 0x02){
-				state = ywait;
-			}
-			if(PINA == 0x00){
-				state = ypress;
-			}
-			if(PINA == 0x01){
-				state = xpress;
-			}
-			if(PINA == 0x04){
-				state = a3press;
-			}
-			if(PINA == 0x80){
-				state = inpress;
-			}
-			break;
-		case ywait:
-			if(PINA == 0x02){
-				state = ywait;
-			}
-			if(PINA == 0x00){
-				state = yrelease;
-			}
-			break;
-		case yrelease:
-			if(PINA == 0x02){
-				state = yrelease;
-			}
-			if(PINA == 0x00){
-				state = lock;
-			}
-			break;
-
-		case a3press:
-			if(PINA == 0x00){
-				state = a3wait;
-			}
-			if(PINA == 0x04){
-				state = a3press;
-			}
-			if(PINA == 0x02){
-				state = ypress;
-			}
-			if(PINA == 0x01){
-				state = xpress;
-			}
-			if(PINA == 0x80){
-				state = inpress;
-			}
-			break;
-		case a3wait:
-			if(PINA == 0x00){
-				state = a3wait;
-			}
-			else{
-				state = a3release;
-			}
-			break;
-		case a3release:
-			if(PINA == 0x00){
-				state = a3release;
-			}
-			else{
-				state = a3lock;
-			}
-			break;
-
-		case inpress:
-			if(PINA == 0x08){
-				state = inwait;
-			}
-			if(PINA == 0x00){
-				state = inpress;
-			}
-			if(PINA == 0x02){
-				state = ypress;
-			}
-			if(PINA == 0x04){
-				state = a3press;
-			}
-			if(PINA == 0x01){
-				state = inpress;
-			}
-			break;
-		case inwait:
-			if(PINA == 0x80){
-				state = inwait;
-			}
-			if(PINA == 0x00){
-				state = inrelease;
-			}
-			break;
-		case inrelease:
-			if(PINA == 0x80){
-				state = inrelease;
-			}
-			if(PINA == 0x00){
-				state = lock;
-			}
-			break;
-
-		default:
-			state = Start;
-			break;
-	}
-	switch(state){ //state actions
-		case lock:
-			PORTB = 0x00;
-			break;
-		case a3lock:
-			PORTB = 0x00;
-			break;
-		case unlockpress:
-			PORTB = 0x01;
-			break;
-		case unlockwait:
-			PORTB = 0x01;
-			break;
-		case unlockrelease:
-			PORTB = 0x01;
-			break;
-		case relockpress:
-			PORTB = 0x00;
-			break;
-		case relockwait:
-			PORTB = 0x00;
-			break;
-		case relockrelease:
-			PORTB = 0x00;
-			break;
-		case xpress:
-			PORTB = 0x00;
-			break;
-		case xwait:
-			PORTB = 0x00;
-			break;
-		case xrelease:
-			PORTB = 0x00;
-			break;
-		case ypress:
-			PORTB = 0x00;
-			break;
-		case ywait:
-			PORTB = 0x00;
-			break;
-		case yrelease:
-			PORTB = 0x00;
-			break;
-		case a3press:
-			PORTB = 0x00;
-			break;
-		case a3wait:
-			PORTB = 0x00;
-			break;
-		case a3release:
-			PORTB = 0x00;
-			break;
-		case inpress:
-			PORTB = 0x00;
-			break;
-		case inwait:
-			PORTB = 0x00;
-			break;
-		case inrelease:
-			PORTB = 0x00;
-			break;
-		default:
-			PORTB = 0x00;
-			break;
-	}
-}
-
-int main(void) {
-    /* Insert DDR and PORT initializations */
-	DDRA = 0x00;	PORTA = 0xFF;
-	DDRB = 0xFF;	PORTB = 0x00;
-    /* Insert your solution below */
-	PORTB = 0x00;
-	state = Start;
-    while (1) {
-	lockstatus();
-    }
-    return 1;
-}
+test "A: 0x04, 0x02 PORTB => 0x01"
+setPINA 0x01
+continue 2
+expectPORTB 0x01
+expect state unlockpress
+checkResult
+# Report on how many tests passed/tests ran
+set $passed=$tests-$failed
+eval "shell echo Passed %d/%d tests.\n",$passed,$tests
+echo ======================================================\n
