@@ -26,7 +26,7 @@ int main(void) {
 	if(tempA == 0x01){
 		button = 0x01;
 		count = count + 1;
-		if(count > 2){
+		if(count > 3){
 			button = 0x00;
 			count = 0x00;
 		}
