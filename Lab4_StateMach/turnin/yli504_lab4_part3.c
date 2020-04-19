@@ -52,28 +52,28 @@ void lockstatus(){
 			break;
 		
 		case unlockpress:
-			if(PINA == 0x02){
+			if(PINA == 0x00){
 				state = unlockwait;
 			}
-			if(PINA == 0x00){
+			if(PINA == 0x02){
 				state = unlockpress;
 			}
 			else{
 				state = lock;
 			}
 		case unlockwait:
-			if(PINA == 0x02){
+			if(PINA == 0x00){
 				state = unlockwait;
 				break;
 			}
-			if(PINA == 0x00){
-				state = unlockrelease;
-			}
-		case unlockrelease:
 			if(PINA == 0x02){
 				state = unlockrelease;
 			}
+		case unlockrelease:
 			if(PINA == 0x00){
+				state = unlockrelease;
+			}
+			if(PINA == 0x02){
 				state = unlockpress;
 			}
 			break;
@@ -147,10 +147,10 @@ void lockstatus(){
 			break;
 
 		case a3press:
-			if(PINA == 0x04){
+			if(PINA == 0x00){
 				state = a3wait;
 			}
-			if(PINA == 0x00){
+			if(PINA == 0x04){
 				state = a3press;
 			}
 			if(PINA == 0x02){
@@ -164,18 +164,18 @@ void lockstatus(){
 			}
 			break;
 		case a3wait:
-			if(PINA == 0x04){
+			if(PINA == 0x00){
 				state = a3wait;
 			}
-			if(PINA == 0x00){
+			else{
 				state = a3release;
 			}
 			break;
 		case a3release:
-			if(PINA == 0x04){
+			if(PINA == 0x00){
 				state = a3release;
 			}
-			if(PINA == 0x00){
+			else{
 				state = a3lock;
 			}
 			break;
@@ -221,8 +221,10 @@ void lockstatus(){
 	switch(state){ //state actions
 		case lock:
 			PORTB = 0x00;
+			break;
 		case a3lock:
 			PORTB = 0x00;
+			break;
 		case unlockpress:
 			PORTB = 0x01;
 			break;
@@ -264,8 +266,10 @@ void lockstatus(){
 			break;
 		case inwait:
 			PORTB = 0x00;
+			break;
 		case inrelease:
 			PORTB = 0x00;
+			break;
 		default:
 			PORTB = 0x00;
 			break;
