@@ -12,63 +12,70 @@
 #include "simAVRHeader.h"
 #endif
 
-enum LED_States{Start, offrelease, onpress, onrelease, offpress} LED_State;
+enum states{Start, init, A0press, A0release, A1press, A1release, A0A1press, A0A1release} state;
 
-void LED_Status(){
-	switch(LED_State){ //transitions
+void status(){
+	switch(state){ //transitions
 		case Start:
-			LED_State = offrelease;
+			state = init;
 			break;
-		case offrelease:
-			if(PINA == 0x01){
-				LED_State = onpress;
-			}
+		case init:
 			if(PINA == 0x00){
-				LED_State = offrelease;
+				state = init;
+			}
+			else if(PINA == 0x01){
+				state = A0press;
+			}
+			else if(PINA == 0x02){
+				state = A1press;
+			}
+			else if(PINA = 0x03){
+				state = A0A1press;
 			}
 			break;
-		case onpress:
-			if(PINA == 0x01){
-				LED_State = onpress;
-			}
+		case A0press:
 			if(PINA == 0x00){
-				LED_State = onrelease;
+				state = A0release;
+			}
+			else if(PINA == 0x01){
+				state = A0press;
+			}
+			else if(PINA == 0x03){
+				state = A0A1press;
 			}
 			break;
-		case onrelease:
-			if(PINA == 0x01){
-				LED_State = offpress;
-			}
+		case A0release:
+			state = init;
+			break;
+		case A1press:
 			if(PINA == 0x00){
-				LED_State = onrelease;
+				state = A1release;
+			}
+			else if(PINA = 0x02){
+				state = A1press;
+			}
+			else if(PINA = 0x03){
+				state = A0A1press;
 			}
 			break;
-		case offpress:
-			if(PINA == 0x01){
-				LED_State = offpress;
+		case A1release:
+			state = init;
+			break;
+		case A0A1press:
+			if(PINA = 0x00){
+				state = A0A1release;
 			}
-			if(PINA == 0x00){
-				LED_State = offrelease;
+			if(PINA = 0x03){
+				state = A0A1press;
 			}
 			break;
-		default:
-			LED_State = Start;
+		case A0A1release:
+			state = init;
 			break;
 	}
-	switch(LED_State){ //state actions
-		case offrelease:
-			PORTB = 0x01;
-			break;
-		case onpress:
-			PORTB = 0x02;
-			break;
-		case onrelease:
-			PORTB = 0x02;
-			break;
-		case offpress:
-			PORTB = 0x01;
-			break;
+	switch(state){ //state actions	
 		default:
+			PORTC = 0x07;
 			break;
 	}
 }
@@ -76,12 +83,12 @@ void LED_Status(){
 int main(void) {
     /* Insert DDR and PORT initializations */
 	DDRA = 0x00;	PORTA = 0xFF;
-	DDRB = 0xFF;	PORTB = 0x00;
+	DDRC = 0xFF;	PORTC = 0x00;
     /* Insert your solution below */
-	PORTB = 0x01;
-	LED_State = Start;
+	PORTC = 0x07;
+	state = Start;
     while (1) {
-	LED_Status();
+	status();
     }
     return 1;
 }
