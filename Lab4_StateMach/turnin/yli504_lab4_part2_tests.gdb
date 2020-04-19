@@ -29,7 +29,30 @@ test "A: 0x01, PORTC => 0x08"
 setPINA 0x01
 continue 2
 expectPORTC 0x08
+expect state A0wait
 checkResult
+
+test "A: 0x02, PORTC => 0x07"
+setPINA 0x01
+continue 2
+expectPORTC 0x07
+expect state A1wait
+checkResult
+
+test "A: 0x02, 0x02 PORTC => 0x06"
+setPINA 0x01
+continue 2
+expectPORTC 0x06
+expect state A1wait
+checkResult
+
+test "A: 0x03, PORTC => 0x00"
+setPINA 0x01
+continue 2
+expectPORTC 0x00
+expect state A0A1wait
+checkResult
+
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed
 eval "shell echo Passed %d/%d tests.\n",$passed,$tests
