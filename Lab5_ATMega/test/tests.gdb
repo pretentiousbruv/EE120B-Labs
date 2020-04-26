@@ -1,4 +1,4 @@
-# Test file for "Lab5_ATMega"
+# Test file for "Lab3_BitMani"
 
 
 # commands.gdb provides the following functions for ease:
@@ -27,17 +27,21 @@ echo ======================================================\n
 echo Running all tests..."\n\n
 
 # Example test:
-test "PINA: 0x00, PINB: 0x00 => PORTC: 0"
+test "A = 15 C => 0x3F "
 # Set inputs
-setPINA 0x00
-setPINB 0x00
+setPINA 0x0F
 # Continue for several ticks
 continue 2
 # Set expect values
-expectPORTC 0
+expectPORTC 0x3F
 # Check pass/fail
 checkResult
 
+test "A 0x06 C => 0x38"
+setPINA 0x06
+continue 2
+expectPORTC 0x38
+checkResult
 # Add tests below
 
 # Report on how many tests passed/tests ran
