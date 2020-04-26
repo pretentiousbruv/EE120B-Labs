@@ -12,12 +12,161 @@
 #include "simAVRHeader.h"
 #endif
 
+enum states{Start, init, A0press, A0wait, A0release, A1press, A1wait, A1release, A0A1press, A0A1wait, A0A1release} state;
+
+void status(){
+unsigned char tempA = ~PINA;
+
+	switch(state){ //transitions
+		case Start:
+			state = init;
+			break;
+		case init:
+			if(tempA == 0x00){
+				state = init;
+			}
+			if(tempA == 0x01){
+				state = A0press;
+			}
+			if(tempA == 0x02){
+				state = A1press;
+			}
+			if(tempA == 0x03){
+				state = A0A1press;
+			}
+			break;
+		case A0press:
+			if(tempA == 0x01){
+				state = A0wait;
+			}
+			if(tempA == 0x00){
+				state = A0press;
+			}
+			if(tempA == 0x03){
+				state = A0A1press;
+			}
+			break;
+		case A0wait:
+			if(tempA == 0x01){
+				state = A0wait;
+			}
+			if(tempA == 0x00){
+				state = A0release;
+			}
+			break;
+		case A0release:
+			if(tempA == 0x01){
+				state = A0release;
+			}
+			if(tempA == 0x00){
+				state = init;
+			}
+			break;
+		case A1press:
+			if(tempA == 0x02){
+				state = A1wait;
+			}
+			if(tempA == 0x00){
+				state = A1press;
+			}
+			if(tempA == 0x03){
+				state = A0A1press;
+			}
+			break;
+		case A1wait:
+			if(tempA == 0x02){
+				state = A1wait;
+			}
+			if(tempA == 0x00){
+				state = A1release;
+			}
+			break;
+		case A1release:
+			if(tempA == 0x02){
+				state = A1release;
+			}
+			if(tempA == 0x00){
+				state = init;
+			}
+			break;
+		case A0A1press:
+			if(tempA == 0x00){
+				state = A0A1wait;
+			}
+			if(tempA == 0x03){
+				state = A0A1press;
+			}
+			break;
+		case A0A1wait:
+			if(tempA == 0x03){
+				state = A0A1wait;
+			}
+			if(tempA == 0x00){
+				state = A0A1release;
+			}
+			break;
+		case A0A1release:
+			if(tempA == 0x03){
+				state = A0A1release;
+			}
+			if(tempA == 0x00){
+				state = init;
+			}
+			break;
+		default:
+			state = Start;
+			break;
+	}
+	switch(state){ //state actions
+		case init:
+			PORTC;
+			break;	
+		case A0press:
+			if(PORTC < 9){
+				PORTC = PORTC + 1;
+			}
+			break;
+		case A0wait:
+			PORTC;
+			break;
+		case A0release:
+			PORTC;
+			break;
+		case A1press:
+			if(PORTC > 0){
+				PORTC = PORTC - 1;
+			}
+			break;
+		case A1wait:
+			PORTC;
+			break;
+		case A1release:
+			PORTC;
+			break;
+		case A0A1press:
+			PORTC = 0;
+			break;
+		case A0A1wait:
+			PORTC;
+			break;
+		case A0A1release:
+			PORTC;
+			break;
+		default:
+			PORTC = 0x00;
+			break;
+	}
+}
+
 int main(void) {
     /* Insert DDR and PORT initializations */
-
+	DDRA = 0x00;	PORTA = 0xFF;
+	DDRC = 0xFF;	PORTC = 0x00;
     /* Insert your solution below */
+	PORTC = 0x00;
+	state = Start;
     while (1) {
-
+	status();
     }
     return 1;
 }
