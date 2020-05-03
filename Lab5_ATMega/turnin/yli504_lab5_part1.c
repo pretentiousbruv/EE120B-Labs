@@ -2,8 +2,9 @@
  *  Partner(s) Name: 
  *	Lab Section:
  *	Assignment: Lab #  Exercise #
- *	Exercise Description: [optional - include for your own benefit]
- *
+ *	part 1 demo: https://drive.google.com/file/d/1cxTVGz1nVPBtMkfSiLKkGEXmHenHclZo/view?usp=sharing
+ *	part 2 demo: 
+ *	part 3 demo: 
  *	I acknowledge all content contained herein, excluding template or example
  *	code, is my own original work.
  */
