@@ -13,7 +13,7 @@
 #include "simAVRHeader.h"
 #endif
 
-volatile unsigned char TimerFlag 0;
+volatile unsigned char TimerFlag =  0;
 
 unsigned long _avr_timer_M = 1;
 unsigned long _avr_timer_cntcurr = 0;
@@ -40,7 +40,7 @@ void TimerISR(){
 	TimerFlag = 1;
 }
 
-ISR(TIMER!_COMPA_vect){
+ISR(TIMER1_COMPA_vect){
 	_avr_timer_cntcurr--;
 	if(_avr_timer_cntcurr == 0){
 		TimerISR();
@@ -56,12 +56,25 @@ void TimerSet(unsigned long M){
 int main(void) {
 	DDRB = 0xFF;
 	PORTB = 0x00;
-	TImerSet(1000);
+	TimerSet(1000);
 	TimerOn();
-	unsigned cha tmpB = 0x00;   
+	unsigned char tempB = 0x00;
+	//unsigned char i = 0x00;   
     while (1) {
-	tmpB = ~tmpB;
-	PORTB = tmpbB;
+	if(tempB == 0x00 || tempB == 0x04){
+		tempB = 0x01;
+	}
+
+	else if(tempB == 0x01){
+		tempB = 0x02;
+	}
+
+	else if(tempB == 0x02){
+		tempB = 0x04;
+	}
+
+	tempB = ~tempB;
+	PORTB = tempB;
 	while(!TimerFlag);
 	TimerFlag = 0;
     }

@@ -58,10 +58,23 @@ int main(void) {
 	PORTB = 0x00;
 	TimerSet(1000);
 	TimerOn();
-	unsigned char tmpB = 0x00;   
+	unsigned char tempB = 0x00;
+	//unsigned char i = 0x00;   
     while (1) {
-	tmpB = ~tmpB;
-	PORTB = tmpB;
+	if(tempB == 0x00 || tempB == 0x04){
+		tempB = 0x01;
+	}
+
+	else if(tempB == 0x01){
+		tempB = 0x02;
+	}
+
+	else if(tempB == 0x02){
+		tempB = 0x04;
+	}
+
+	tempB = ~tempB;
+	PORTB = tempB;
 	while(!TimerFlag);
 	TimerFlag = 0;
     }
