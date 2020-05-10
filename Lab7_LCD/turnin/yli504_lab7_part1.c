@@ -64,6 +64,7 @@ void status(){
 			state = init;
 			break;
 		case init:
+			j = 0;
 			if(~PINA & 0x02){
 				state = dec;
 			}
@@ -105,7 +106,9 @@ void status(){
 				if(j >= 4){
 					state = init;
 				}
-				state = wait;
+				else{
+					state = wait;
+				}
 			}
 			else{
 				state = init;
