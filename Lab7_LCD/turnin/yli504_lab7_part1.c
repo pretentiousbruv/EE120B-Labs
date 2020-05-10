@@ -19,6 +19,7 @@ volatile unsigned char TimerFlag =  0;
 unsigned long _avr_timer_M = 1;
 unsigned long _avr_timer_cntcurr = 0;
 unsigned char i = 0;
+unsigned char j = 0;
 
 void TimerOn(){
 	TCCR1B = 0x0B;
@@ -99,7 +100,11 @@ void status(){
 			}
 			break;
 		case wait:
+			j = j + 1;
 			if(((~PINA & 0x03) == 0x02) || ((~PINA & 0x03) == 0x01)){
+				if(j >= 4){
+					state = init;
+				}
 				state = wait;
 			}
 			else{
@@ -150,10 +155,11 @@ int main(void) {
 	DDRC = 0xFF;	PORTC = 0x00;
 	DDRD = 0xFF;	PORTD = 0x00;
     /* Insert your solution below */
-	TimerSet(1000);
+	TimerSet(100);
 	TimerOn();
+	LCD_init();
+	
     while (1) {
-	continue;
 	status();
 	while(!TimerFlag);
 	TimerFlag = 0;
