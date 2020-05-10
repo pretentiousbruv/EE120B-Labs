@@ -17,8 +17,8 @@ volatile unsigned char TimerFlag =  0;
 
 unsigned long _avr_timer_M = 1;
 unsigned long _avr_timer_cntcurr = 0;
-unsigned char i = 0;
-int led[] = {0x01, 0x02, 0x04, 0x02, 0x01, 0x02, 0x04, 0x02}; 
+unsigned char i = 1;
+int led[] = {0x00, 0x01, 0x02, 0x04, 0x02}; 
 
 void TimerOn(){
 	TCCR1B = 0x0B;
@@ -103,10 +103,12 @@ void status(){
 		case init:
 			PORTB = led[i];
 			i++;
-			if(i >= 8){ 
-				i = 0;
+			if(i == 5){ 
+				i = 1;
 			}
 			break;
+		case pause:
+			i = 0;
 		default:
 			break;
 	}
