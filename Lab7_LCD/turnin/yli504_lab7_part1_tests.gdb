@@ -1,4 +1,4 @@
-# Test file for "Lab7_LCD"
+# Test file for "Lab4_StateMach"
 
 
 # commands.gdb provides the following functions for ease:
@@ -25,19 +25,33 @@
 
 echo ======================================================\n
 echo Running all tests..."\n\n
-
-# Example test:
-test "PINA: 0x01 => PINB: 0x01"
-# Set inputs
+test "A: 0x01, PORTC => 0x01"
 setPINA 0x01
-# Continue for several ticks
 continue 2
-# Set expect values
-expectPORTB 0x01
-# Check pass/fail
+expectPORTC 0x01
+expect state A0wait
 checkResult
 
-# Add tests below
+test "A: 0x02, PORTC => 0x00"
+setPINA 0x01
+continue 2
+expectPORTC 0x00
+expect state A1wait
+checkResult
+
+test "A: 0x02, 0x02 PORTC => 0x00"
+setPINA 0x01
+continue 2
+expectPORTC 0x00
+expect state A1wait
+checkResult
+
+test "A: 0x03, PORTC => 0x00"
+setPINA 0x01
+continue 2
+expectPORTC 0x00
+expect state A0A1wait
+checkResult
 
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed
