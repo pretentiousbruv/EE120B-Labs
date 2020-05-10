@@ -119,17 +119,20 @@ void status(){
 	}
 	switch(state){ //state actions
 		case init:
-			LCD_WriteData(i);
+			LCD_Cursor(1);
+			LCD_WriteData(i + '0');
 			break;	
 		case inc:
 			if(i < 9){
 				i = i + 1;
+				LCD_Cursor(1);
 				LCD_WriteData(i + '0');
 			}
 			break;
 		case dec:
 			if(i > 0){
 				i = i - 1;
+				LCD_Cursor(1);
 				LCD_WriteData(i + '0');
 			}
 			break;
@@ -146,15 +149,12 @@ int main(void) {
 	DDRA = 0x00;	PORTA = 0xFF;
 	DDRC = 0xFF;	PORTC = 0x00;
 	DDRD = 0xFF;	PORTD = 0x00;
-
+    /* Insert your solution below */
 	TimerSet(1000);
 	TimerOn();
-    /* Insert your solution below */
-	//LCD_init();
-	//LCD_DisplayString(1, "Hello World");
-
     while (1) {
 	continue;
+	status();
 	while(!TimerFlag);
 	TimerFlag = 0;
     }
