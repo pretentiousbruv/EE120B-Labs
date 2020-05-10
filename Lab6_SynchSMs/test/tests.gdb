@@ -29,22 +29,25 @@ echo Running all tests..."\n\n
 # Example test:
 test "PORTB = 0x00; PORTB = 0x01 after 1 sec, 0x02 after 2 sec, 0x04 after 3 then back to 0x01 after 4 sec"
 # Set inputs
-setPINB 0x00
+setPINB 0x01
 # Continue for several ticks
 continue 2
 # Set expect values
 expectPORTB 0x01
 continue 2
-expectPORTB 0x02
-continue 2
 expectPORTB 0x04
 continue 2
-expectPORTB 0x01
+expectPORTB 0x02
 # Check pass/fail
 checkResult
 
 # Add tests below
-
+test "PORTA = 0x01; PORTB will stop moving"
+setPINA 0x01
+setPINB 0x01
+continue 2
+expectPORTB 0x01
+checkResult
 # Report on how many tests passed/tests ran
 set $passed=$tests-$failed
 eval "shell echo Passed %d/%d tests.\n",$passed,$tests
