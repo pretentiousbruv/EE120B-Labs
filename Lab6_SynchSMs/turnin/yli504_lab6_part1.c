@@ -3,7 +3,7 @@
  *	Lab Section:
  *	Assignment: Lab #  Exercise #
  *	part 1 demo: https://drive.google.com/open?id=19xJOCvinmSx4nY_r6JZ3kDifcBLq8k0R
- *	part 2 demo:
+ *	part 2 demo: https://drive.google.com/open?id=1vH2xqAMHS1d7toyR8tODhlVBISMXkV4G
  *	part 3 demo:
  *
  *	I acknowledge all content contained herein, excluding template or example
