@@ -61,19 +61,25 @@ void status(){
 			break;
 
 		case init:
-			if(~PINA & 0x01){
+			if((~PINA & 0x03) == 0x03 || (~PINA & 0x05) == 0x05 || (~PINA & 0x06) == 0x06 || (~PINA & 0x07) == 0x07){
+				state = init;
+			}
+			else if(~PINA & 0x01){
 				state = button1;
 			}
-			if(~PINA & 0x02){
+			else if(~PINA & 0x02){
 				state = button2;
 			}
-			if(~PINA & 0x04){
+			else if(~PINA & 0x04){
 				state = button3;
-			}
+			}			
 			break;
 
 		case button1:
-			if(~PINA & 0x01){ 
+			if((~PINA & 0x03) == 0x03 || (~PINA & 0x05) == 0x05 || (~PINA & 0x06) == 0x06 || (~PINA & 0x07) == 0x07){
+				state = init;
+			}
+			else if(~PINA & 0x01){ 
 				state = button1;
 			}
 			else{ 
@@ -81,7 +87,10 @@ void status(){
 			}
 			break;
 		case button2:
-			if(~PINA & 0x02){ 
+			if((~PINA & 0x03) == 0x03 || (~PINA & 0x05) == 0x05 || (~PINA & 0x06) == 0x06 || (~PINA & 0x07) == 0x07){
+				state = init;
+			}
+			else if(~PINA & 0x02){ 
 				state = button2;
 			}
 			else{ 
@@ -90,7 +99,10 @@ void status(){
 			break;
 
 		case button3:
-			if(~PINA & 0x04){ 
+			if((~PINA & 0x03) == 0x03 || (~PINA & 0x05) == 0x05 || (~PINA & 0x06) == 0x06 || (~PINA & 0x07) == 0x07){
+				state = init;
+			}
+			else if(~PINA & 0x04){ 
 				state = button3;
 			}
 			else{ 
