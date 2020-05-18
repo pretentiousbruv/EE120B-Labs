@@ -10,7 +10,7 @@
 #include <avr/io.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
-#include "timer.h"
+//#include "timer.h"
 #endif
 
 void set_PWM(double frequency){ //this function sets frequency output on OC3A(PB6)
@@ -52,25 +52,84 @@ void PWM_off(){
 	TCCR3B = 0x00;
 }
 
+enum states{start, init, button1, button2, button3} state;
+
+void status(){
+	switch(state){
+		case start:
+			state = init;
+			break;
+
+		case init:
+			if(~PINA & 0x01){
+				state = button1;
+			}
+			if(~PINA & 0x02){
+				state = button2;
+			}
+			if(~PINA & 0x04){
+				state = button3;
+			}
+			break;
+
+		case button1:
+			if(~PINA & 0x01){ 
+				state = button1;
+			}
+			else{ 
+				state = init;
+			}
+			break;
+		case button2:
+			if(~PINA & 0x02){ 
+				state = button2;
+			}
+			else{ 
+				state = init;
+			}
+			break;
+
+		case button3:
+			if(~PINA & 0x04){ 
+				state = button3;
+			}
+			else{ 
+				state = init;
+			}
+			break;
+		default:
+			break;
+	}
+	
+	switch(state){
+		case init:
+			set_PWM(0);
+			break;
+
+		case button1:
+			set_PWM(261.63);
+			break;
+
+		case button2:
+			set_PWM(293.66);
+			break;
+
+		case button3:
+			set_PWM(329.63);
+			break;
+
+		default:
+			break;
+	}
+}
 int main(void) {
     /* Insert DDR and PORT initializations */
 	DDRA = 0x00;	PORTA = 0xFF;
 	DDRB = 0xFF;	PORTB = 0x00;
     /* Insert your solution below */
-	TimerSet(1000);
-	TimerOn();
 	PWM_on();
     while (1) {
-	if(~PINA & 0x01){
-		set_PWM(261.63);
-	}
-	if(~PINA == 0x00){
-		set_PWM(293.66);
-	}
-	while(!TimerFlag){
-		TimerFlag = 0;
-    	}
-	set_PWM(0);
+	status();
     }
     return 1;
 }
