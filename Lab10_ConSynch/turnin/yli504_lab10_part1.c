@@ -31,10 +31,10 @@ void threeLEDs(){
 			if(count >= 0 && count <= 1000){
 				state1 = LED1;
 			}
-			if(count >= 1001 && count <= 2000){
+			else if(count >= 1001 && count <= 2000){
 				state1 = LED2;
 			}
-			if(count >= 2001 && count <= 3000){
+			else if(count >= 2001 && count <= 3000){
 				state1 = LED3;
 			}
 			break;
@@ -56,13 +56,13 @@ void threeLEDs(){
 
 	switch(state1){
 		case LED1:
-			LEDpos = 0x01;
+			LEDpos = (LEDpos & 0x00) | 0x01;
 			break;
 		case LED2:
-			LEDpos = 0x02;
+			LEDpos = (LEDpos & 0x00) | 0x02;
 			break;
 		case LED3:
-			LEDpos = 0x04;
+			LEDpos = (LEDpos & 0x00) | 0x04;
 			break;
 		default:
 			break;
@@ -78,7 +78,7 @@ void blinkingLED(){
 			if(sig >= 0 && sig <= 1000){
 				state2 = Off;
 			}
-			if(sig >= 1001 && sig <= 2000){
+			else if(sig >= 1001 && sig <= 2000){
 				state2 = On;
 			}
 			break;
@@ -97,10 +97,10 @@ void blinkingLED(){
 	
 	switch(state2){
 		case On:
-			OnOff = 0x08;
+			OnOff = (OnOff & 0x00) | 0x08;
 			break;
 		case Off:
-			OnOff = 0x00;
+			OnOff = OnOff & 0x00;
 			break;
 		default:
 			break;
