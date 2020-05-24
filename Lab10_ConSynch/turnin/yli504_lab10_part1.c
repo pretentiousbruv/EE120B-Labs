@@ -28,13 +28,13 @@ void threeLEDs(){
 			state1 = init1;
 			break;
 		case init1:
-			if(count >= 0 || count <= 1000){
+			if(count >= 0 && count <= 1000){
 				state1 = LED1;
 			}
-			if(count >= 1001 || count <= 2000){
+			if(count >= 1001 && count <= 2000){
 				state1 = LED2;
 			}
-			if(count >= 2001 || count <= 3000){
+			if(count >= 2001 && count <= 3000){
 				state1 = LED3;
 			}
 			break;
@@ -75,10 +75,10 @@ void blinkingLED(){
 			state2 = init2;
 			break;
 		case init2:
-			if(sig >= 0 || sig <= 1000){
+			if(sig >= 0 && sig <= 1000){
 				state2 = Off;
 			}
-			if(sig >= 1001 || sig <= 2000){
+			if(sig >= 1001 && sig <= 2000){
 				state2 = On;
 			}
 			break;
