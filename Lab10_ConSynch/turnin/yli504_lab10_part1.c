@@ -19,8 +19,8 @@ enum states3{start3, combineLED} state3;
 
 unsigned char LEDpos = 0x00;
 unsigned char OnOff = 0x00;
-unsigned char count = 0x01;
-unsigned char sig = 0x00;
+unsigned int count = 0;
+unsigned int sig = 0;
 
 void threeLEDs(){
 	switch(state1){
@@ -28,27 +28,27 @@ void threeLEDs(){
 			state1 = init1;
 			break;
 		case init1:
-			if(count & 0x01){
+			if(count >= 0 || count <= 1000){
 				state1 = LED1;
 			}
-			if(count & 0x02){
+			if(count >= 1001 || count <= 2000){
 				state1 = LED2;
 			}
-			if(count & 0x04){
+			if(count >= 2001 || count <= 3000){
 				state1 = LED3;
-			}
-			else{
-				state1 = init1;
 			}
 			break;
 		case LED1:
-			count = 0x02;
+			count++;
 			break;
 		case LED2:
-			count = 0x04;
+			count++;
 			break;
 		case LED3:
-			count = 0x01;
+			count++;
+			if(count >= 3000){
+				count = 0;
+			}
 			break;
 		default:
 			break;		
@@ -75,21 +75,21 @@ void blinkingLED(){
 			state2 = init2;
 			break;
 		case init2:
-			if(sig & 0x01){
-				state2 = On;
-			}
-			if(sig & 0x00){
+			if(sig >= 0 || sig <= 1000){
 				state2 = Off;
 			}
-			else{
-				state2 = init2;
+			if(sig >= 1001 || sig <= 2000){
+				state2 = On;
 			}
 			break;
-		case On:
-			sig = 0x00;
-			break;
 		case Off:
-			sig = 0x01;
+			sig++;
+			break;
+		case On:
+			sig++;
+			if(sig >= 2000){
+				sig = 0;
+			}
 			break;
 		default:
 			break;
@@ -132,7 +132,7 @@ int main(void){
 	DDRA = 0x00;	PORTA = 0xFF;
 	DDRB = 0xFF;	PORTB = 0x00;
     /* Insert your solution below */
-	TimerSet(1000);
+	TimerSet(1);
 	TimerOn();
     while (1){
 	threeLEDs();
