@@ -150,31 +150,31 @@ int main(void) {
 	DDRA = 0x00;
 	PORTA = 0xFF;
 	DDRB = 0xFF;
-	volatile unsigned long LED_elapsedTime = 1000;
-	volatile unsigned long blink_elapsedTime = 300;
-	volatile unsigned long combinetogether = 1000;
+	volatile unsigned long LED_elapsedTime = 300;
+	volatile unsigned long blink_elapsedTime = 1000;
+	volatile unsigned long combinetogether = 10;
 	PORTB = 0x00;
-	TimerSet(100);
+	TimerSet(1);
 	TimerOn();	
     while (1) {
-	if(LED_elapsedTime >= 1000){
+	if(LED_elapsedTime >= 300){
 		status();
 		LED_elapsedTime = 0;
 	}
-	if(blink_elapsedTime >= 300){
+	if(blink_elapsedTime >= 1000){
 		blinkingLED();
 		blink_elapsedTime = 0;
 	}
-	if(combinetogether >= 1000){
+	if(combinetogether >= 10){
 		combine();
 		combinetogether = 0;
 	}
 
 	while(!TimerFlag){
 	}
-		LED_elapsedTime += 100;
-		blink_elapsedTime += 100;
-		combinetogether += 100;
+		LED_elapsedTime += 1;
+		blink_elapsedTime += 1;
+		combinetogether += 1;
 		TimerFlag = 0;
     }
     return 1;
