@@ -19,8 +19,8 @@ enum states3{start3, combineLED} state3;
 
 unsigned char LEDpos = 0x00;
 unsigned char OnOff = 0x00;
-unsigned int count = 0;
-unsigned int sig = 0;
+unsigned char count = 0x00;
+unsigned char sig = 0x00;
 
 void threeLEDs(){
 	switch(state1){
@@ -28,27 +28,27 @@ void threeLEDs(){
 			state1 = init1;
 			break;
 		case init1:
-			if(count >= 0 && count <= 1000){
+			if(count == 0x00){
 				state1 = LED1;
 			}
-			else if(count >= 1001 && count <= 2000){
+			else if(count == 0x01){
 				state1 = LED2;
 			}
-			else if(count >= 2001 && count <= 3000){
+			else if(count == 0x02){
 				state1 = LED3;
+			}
+			else{
+				state1 = init1;
 			}
 			break;
 		case LED1:
-			count++;
+			count = 0x01;
 			break;
 		case LED2:
-			count++;
+			count = 0x02;
 			break;
 		case LED3:
-			count++;
-			if(count >= 3000){
-				count = 0;
-			}
+			count = 0x00;
 			break;
 		default:
 			break;		
@@ -56,13 +56,13 @@ void threeLEDs(){
 
 	switch(state1){
 		case LED1:
-			LEDpos = (LEDpos & 0x00) | 0x01;
+			LEDpos = 0x01;
 			break;
 		case LED2:
-			LEDpos = (LEDpos & 0x00) | 0x02;
+			LEDpos = 0x02;
 			break;
 		case LED3:
-			LEDpos = (LEDpos & 0x00) | 0x04;
+			LEDpos = 0x04;
 			break;
 		default:
 			break;
@@ -75,32 +75,31 @@ void blinkingLED(){
 			state2 = init2;
 			break;
 		case init2:
-			if(sig >= 0 && sig <= 1000){
+			if(sig == 0x00){
 				state2 = Off;
 			}
-			else if(sig >= 1001 && sig <= 2000){
+			else if(sig == 0x01){
 				state2 = On;
+			}
+			else{
+				state2 = init2;
 			}
 			break;
 		case Off:
-			sig++;
+			sig = 0x01;
 			break;
 		case On:
-			sig++;
-			if(sig >= 2000){
-				sig = 0;
-			}
-			break;
+			sig = 0x00;
 		default:
 			break;
 	}
 	
 	switch(state2){
 		case On:
-			OnOff = (OnOff & 0x00) | 0x08;
+			OnOff = 0x08;
 			break;
 		case Off:
-			OnOff = OnOff & 0x00;
+			OnOff = 0x00;
 			break;
 		default:
 			break;
@@ -131,15 +130,27 @@ int main(void){
     /* Insert DDR and PORT initializations */
 	DDRA = 0x00;	PORTA = 0xFF;
 	DDRB = 0xFF;	PORTB = 0x00;
+	unsigned long LED_elapsedTime = 1000;
+	unsigned long blink_elapsedTime = 1000;
     /* Insert your solution below */
-	TimerSet(1);
+	TimerSet(1000);
 	TimerOn();
+	state1 = start1;
+	state2 = start2;
     while (1){
-	threeLEDs();
-	blinkingLED();
+	if(LED_elapsedTime >= 1000){
+		threeLEDs();
+		LED_elapsedTime = 0;
+	}
+	if(blink_elapsedTime >= 1000){
+		blinkingLED();
+		blink_elapsedTime = 0;
+	}
 	combine();
 	while(!TimerFlag){
 		TimerFlag = 0;
+		LED_elapsedTime += 1000;
+		blink_elapsedTime += 1000;
 	}
     }
     return 1;
