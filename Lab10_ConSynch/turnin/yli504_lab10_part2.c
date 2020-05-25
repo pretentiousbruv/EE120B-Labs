@@ -140,7 +140,7 @@ int main(void){
 	state1 = start1;
 	state2 = start2;
     while (1){
-	if(LED_elapsedTime >= 1000){
+	if(LED_elapsedTime >= 300){
 		threeLEDs();
 		LED_elapsedTime = 0;
 	}
