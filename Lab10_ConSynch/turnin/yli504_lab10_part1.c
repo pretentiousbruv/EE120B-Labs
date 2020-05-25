@@ -17,8 +17,6 @@ volatile unsigned char TimerFlag =  0;
 
 unsigned long _avr_timer_M = 1;
 unsigned long _avr_timer_cntcurr = 0;
-unsigned char i = 0;
-unsigned char flag = 0;
 
 void TimerOn(){
 	TCCR1B = 0x0B;
@@ -56,8 +54,8 @@ void TimerSet(unsigned long M){
 }
 
 enum states{Start, state1, state2, state3, button, pause, buttonagain} state;
+unsigned char i = 0;
 unsigned char three = 0x00;
-unsigned char blink = 0x00;
 
 void status(){
 	switch(state){
@@ -105,6 +103,8 @@ void status(){
 
 enum states22{start2, On, Off} state22;
 unsigned char j = 0;
+unsigned char blink = 0x00;
+
 void blinkingLED(){
 	switch(state2){
 		case start2:
@@ -150,15 +150,32 @@ int main(void) {
 	DDRA = 0x00;
 	PORTA = 0xFF;
 	DDRB = 0xFF;
+	volatile unsigned long LED_elapsedTime = 10000;
+	volatile unsigned long blink_elapsedTime = 1000;
+	volatile unsigned long combinetogether = 1000;
 	PORTB = 0x00;
-	TimerSet(1000);
+	TimerSet(100);
 	TimerOn();	
     while (1) {
-	status();
-	blinkingLED();
-	combine();
-	while(!TimerFlag);
-	TimerFlag = 0;
+	if(LED_elapsedTime >= 1000){
+		status();
+		LED_elapsedTime = 0;
+	}
+	if(blink_elapsedTime >= 1000){
+		blinkingLED();
+		blink_elapsedTime = 0;
+	}
+	if(combinetogether >= 1000){
+		combine();
+		combinetogether = 0;
+	}
+
+	while(!TimerFlag){
+	}
+		LED_elapsedTime += 100;
+		blink_elapsedTime += 100;
+		combinetogether += 100;
+		TimerFlag = 0;
     }
     return 1;
 }
