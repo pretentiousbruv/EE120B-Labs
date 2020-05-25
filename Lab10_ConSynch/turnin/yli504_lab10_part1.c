@@ -150,7 +150,7 @@ int main(void) {
 	DDRA = 0x00;
 	PORTA = 0xFF;
 	DDRB = 0xFF;
-	volatile unsigned long LED_elapsedTime = 10000;
+	volatile unsigned long LED_elapsedTime = 1000;
 	volatile unsigned long blink_elapsedTime = 1000;
 	volatile unsigned long combinetogether = 1000;
 	PORTB = 0x00;
