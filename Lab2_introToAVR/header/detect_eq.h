@@ -1,16 +1,17 @@
 //define local variable(s) here.  Use static keyword to keep local, e.g:
 //   static int i;  // defines a local int named i
+
+
+/*complete the state machine*/
+
+void Detect_EQ()
+{
 unsigned char motionz_sense = 0x00;
 unsigned char tempA = 0x00;
 unsigned char counter = 0;
 tempA = PINA;
 tempA = ~tempA;
 motion = tempA & 0xF8;
-
-/*complete the state machine*/
-
-void Detect_EQ()
-{
     switch(detect_eq_state)
     {
         case DEQInit:
