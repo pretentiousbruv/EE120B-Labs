@@ -19,8 +19,8 @@ void Ping()
 		} 
             break;
 	case active:
-		singal = 0;
-		ping_state = Pinit;
+		signal = 0;
+		ping_state = PInit;
 		break;
         default:
             ping_state = PInit;
