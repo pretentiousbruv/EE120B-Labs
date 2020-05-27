@@ -1,15 +1,16 @@
 //define local variable(s) here.  Use static keyword to keep local, e.g:
 //   static int i;  // defines a local int named i
-unsigned char temp = 0x00;
-unsigned char compare = 0x00;
-temp = ~PINA;
-temp = temp & 0xF8;
-compare = PORTB;
-compare = PORTB & 0xF8;
 /* complete the state machine. */
 
 void Detect_Max_Amp()
 {
+unsigned char temp = 0x00;
+unsigned char compare = 0x00;
+temp = PINA;
+temp = ~temp;
+temp = temp & 0xF8;
+compare = PORTB;
+compare = PORTB & 0xF8;
     switch(detect_max_amp_state)
     {
         case DMAInit:
