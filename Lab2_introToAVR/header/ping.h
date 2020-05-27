@@ -1,12 +1,13 @@
 //define local variable(s) here.  Use static keyword to keep local, e.g:
 //   static int i;  // defines a local int named i
-unsigned char signal = 0;
+
 
 
 /*complete the state machine*/
 
 void Ping()
 {
+unsigned char signal = 0;
     switch(ping_state)
     {
         case PInit:
