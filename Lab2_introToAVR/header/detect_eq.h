@@ -1,8 +1,11 @@
 //define local variable(s) here.  Use static keyword to keep local, e.g:
 //   static int i;  // defines a local int named i
-unsigned char motion = 0x00;
+unsigned char motionz_sense = 0x00;
+unsigned char tempA = 0x00;
 unsigned char counter = 0;
-motion = ~PINA & 0xF8;
+tempA = PINA;
+tempA = ~tempA;
+motion = tempA & 0xF8;
 
 /*complete the state machine*/
 
@@ -11,7 +14,7 @@ void Detect_EQ()
     switch(detect_eq_state)
     {
         case DEQInit:
-		if(motion == 0x00){
+		if(motion_sense == 0x00){
 			detect_eq_state = noquake;
 		}
 		else{
@@ -23,7 +26,7 @@ void Detect_EQ()
 		counter = 0;
 		break;
 	case quake:
-		if(motion > 0x00){
+		if(motion_sense > 0x00){
 			detect_eq_state = quake;
 			counter = 0;
 		}
