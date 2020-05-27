@@ -6,12 +6,12 @@
 
 void Detect_EQ()
 {
-unsigned char motionz_sense = 0x00;
+unsigned char motion_sense = 0x00;
 unsigned char tempA = 0x00;
 unsigned char counter = 0;
 tempA = PINA;
 tempA = ~tempA;
-motion = tempA & 0xF8;
+motion_sense = tempA & 0xF8;
     switch(detect_eq_state)
     {
         case DEQInit:
