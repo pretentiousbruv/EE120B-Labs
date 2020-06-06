@@ -10,6 +10,7 @@
 #include <avr/io.h>
 #ifdef _SIMULATE_
 #include "simAVRHeader.h"
+#include "bit.h"
 #endif
 unsigned char GetKeypadKey(){
 	PORTC = 0xEF;
